@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -45,7 +46,8 @@ public class CarsServiceImpl implements CarsService {
 
             while ((line = br.readLine()) != null) {
 
-                String[] car = line.split(cvsSplitBy);
+                String utfLine = new String(line.getBytes(), StandardCharsets.UTF_8);
+                String[] car = utfLine.split(cvsSplitBy);
 
                 if(car.length == 4 && car[0] != null && !car[0].isEmpty() && car[3] != null && car[3].equalsIgnoreCase(color)){
                     Date date =new Date(format.parse ( car[2] ).getTime());
